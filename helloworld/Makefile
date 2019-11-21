@@ -1,4 +1,4 @@
-obj-m += src/helloworld.o
+obj-m += helloworld.o
 KVERSION := $(shell uname -r)
 CONFIG_KASAN = y
 all:
