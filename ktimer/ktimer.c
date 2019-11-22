@@ -8,25 +8,25 @@ DECLARE_TASKLET(my_tasklet, my_tasklet_handler, 0);
 
 static void my_tasklet_handler(unsigned long flat)
 {
-	ktime_t time;
-	int val=1, cnt, i=0;
-
-	//tasklet_disable(&my_tasklet);
+	int val, cnt, i;
+	int count=1000;
+	unsigned long long total = 0;
+	ktime_t t1, t2;
 
 	pr_info("ktime test for profiling\n");
 
-	time = ktime_get();
 
-	for (cnt=0; cnt<10000; cnt++) {
+	for (cnt=0; cnt<count; cnt++) {
+		t1 = ktime_get();
+		val = 1;
 		for (i=0; i<10; i++)
 			val *= 2;
+		t2 = ktime_get();
+		total += ktime_to_ns(ktime_sub(t2, t1));
 	}
 
-	time = ktime_sub(ktime_get(), time);
 	pr_info("2^10 = %d, spend time: %lld, iterations: %d\n",
-		val, ktime_to_ns(time), cnt);	
-
-	//tasklet_enable(&my_tasklet);
+		val, total/count, count);	
 }
 
 static int __init hello_init(void)
