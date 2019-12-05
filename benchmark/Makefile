@@ -1,4 +1,4 @@
-obj-m += helloworld.o
+obj-m += benchmark.o
 KVERSION := $(shell uname -r)
 CONFIG_KASAN = y
 all:
