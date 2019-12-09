@@ -3,6 +3,7 @@
 #include <linux/kernel.h>
 #include <linux/interrupt.h>
 #include <linux/preempt.h>
+#include <linux/delay.h>
 
 
 void tasklet_handler(unsigned long data)
@@ -12,6 +13,8 @@ void tasklet_handler(unsigned long data)
 	pr_info("tasklet: in_irq(): 0x%0lx\n", in_irq());
 	pr_info("tasklet: in_softirq(): 0x%0lx\n", in_softirq());
 	pr_info("tasklet: in_nmi(): 0x%0lx\n", in_nmi());
+
+	msleep(20);
 }
 
 DECLARE_TASKLET(my_tasklet, tasklet_handler, 0);

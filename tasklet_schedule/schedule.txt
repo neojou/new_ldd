@@ -1,0 +1,49 @@
+[24475.199221] module init : in_interrupt(): 0x0
+[24475.199230] tasklet_handler work
+[24475.199231] tasklet: in_interrupt(): 0x100
+[24475.199232] tasklet: in_irq(): 0x0
+[24475.199233] tasklet: in_softirq(): 0x100
+[24475.199233] tasklet: in_nmi(): 0x0
+[24475.199236] BUG: scheduling while atomic: ksoftirqd/1/16/0x00000100
+[24475.200001] Modules linked in: tasklet_schedule(OE) ipheth rfcomm bnep binfmt_misc uvcvideo intel_rapl_msr intel_rapl_common videobuf2_vmalloc videobuf2_memops x86_pkg_temp_thermal intel_powerclamp videobuf2_v4l2 coretemp videobuf2_common videodev kvm_intel mc kvm snd_hda_codec_realtek irqbypass iwlmvm snd_hda_codec_hdmi snd_hda_codec_generic mac80211 snd_hda_intel dell_laptop snd_hda_codec crct10dif_pclmul crc32_pclmul libarc4 ghash_clmulni_intel aesni_intel snd_hda_core aes_x86_64 crypto_simd ledtrig_audio snd_hwdep cryptd glue_helper intel_cstate dell_smm_hwmon intel_rapl_perf snd_pcm snd_seq_midi snd_seq_midi_event snd_rawmidi snd_seq dell_wmi joydev input_leds serio_raw dell_smbios snd_seq_device sparse_keymap snd_timer snd dcdbas wmi_bmof dell_wmi_descriptor btusb btrtl soundcore iwlwifi btbcm btintel bluetooth cfg80211 ecdh_generic ecc acpi_pad mei_me lpc_ich mac_hid dell_rbtn mei parport_pc ppdev lp parport autofs4 nouveau i915 ttm i2c_algo_bit drm_kms_helper syscopyarea
+[24475.200023]  sysfillrect sysimgblt fb_sys_fops mxm_wmi psmouse ahci drm libahci r8169 realtek wmi i2c_hid video hid [last unloaded: tasklet_schedule]
+[24475.200029] CPU: 1 PID: 16 Comm: ksoftirqd/1 Tainted: G           OE     5.3.1 #1
+[24475.200029] Hardware name: Dell Inc. Inspiron 5558/0WMF3P, BIOS A02 03/09/2015
+[24475.200030] Call Trace:
+[24475.200036]  dump_stack+0x5c/0x7b
+[24475.200039]  __schedule_bug+0x51/0x70
+[24475.200041]  __schedule+0x558/0x670
+[24475.200042]  ? sort_range+0x20/0x20
+[24475.200043]  schedule+0x2f/0xa0
+[24475.200044]  schedule_timeout+0x164/0x300
+[24475.200046]  ? sort_range+0x20/0x20
+[24475.200048]  ? __next_timer_interrupt+0xc0/0xc0
+[24475.200050]  msleep+0x29/0x30
+[24475.200052]  tasklet_action_common.isra.22+0x5e/0x110
+[24475.200054]  __do_softirq+0xe3/0x2dc
+[24475.200056]  ? sort_range+0x20/0x20
+[24475.200057]  run_ksoftirqd+0x26/0x40
+[24475.200058]  smpboot_thread_fn+0xef/0x160
+[24475.200060]  kthread+0x113/0x130
+[24475.200062]  ? kthread_park+0xa0/0xa0
+[24475.200063]  ret_from_fork+0x35/0x40
+[24475.222070] softirq: huh, entered softirq 6 TASKLET 000000004c2ec23f with preempt_count 00000100, exited with 00000000?
+[24544.101608] usb 2-1: new high-speed USB device number 8 using xhci_hcd
+[24544.250343] usb 2-1: New USB device found, idVendor=8564, idProduct=1000, bcdDevice=10.75
+[24544.250348] usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[24544.250351] usb 2-1: Product: Mass Storage Device
+[24544.250354] usb 2-1: Manufacturer: JetFlash
+[24544.250356] usb 2-1: SerialNumber: 1203954096
+[24544.319292] usb-storage 2-1:1.0: USB Mass Storage device detected
+[24544.319421] scsi host4: usb-storage 2-1:1.0
+[24544.319569] usbcore: registered new interface driver usb-storage
+[24544.327904] usbcore: registered new interface driver uas
+[24545.350430] scsi 4:0:0:0: Direct-Access     JetFlash Transcend 16GB   1.00 PQ: 0 ANSI: 6
+[24545.351122] sd 4:0:0:0: Attached scsi generic sg2 type 0
+[24545.351348] sd 4:0:0:0: [sdb] 30867456 512-byte logical blocks: (15.8 GB/14.7 GiB)
+[24545.351539] sd 4:0:0:0: [sdb] Write Protect is off
+[24545.351542] sd 4:0:0:0: [sdb] Mode Sense: 23 00 00 00
+[24545.351691] sd 4:0:0:0: [sdb] Write cache: disabled, read cache: disabled, doesn't support DPO or FUA
+[24545.353518]  sdb:
+[24545.354894] sd 4:0:0:0: [sdb] Attached SCSI removable disk
+[24547.990083] FAT-fs (sdb): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
