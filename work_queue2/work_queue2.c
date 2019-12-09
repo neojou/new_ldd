@@ -16,7 +16,9 @@ static void work_handler1(struct work_struct *work)
 {
 	int i;
 
-	for (i=0; i<100; i++) {
+	pr_info("%s: pid=%d\n", __func__, current->pid);
+
+	for (i=0; i<30; i++) {
 		pr_info("%s: i=%d\n", __func__, i);
 		msleep(100);
 	}
@@ -26,7 +28,9 @@ static void work_handler2(struct work_struct *work)
 {
 	int i;
 
-	for (i=0; i<10; i++) {
+	pr_info("%s: pid=%d\n", __func__, current->pid);
+
+	for (i=0; i<3; i++) {
 		pr_info("%s: i=%d\n", __func__, i);
 		msleep(1000);
 	}
@@ -34,6 +38,7 @@ static void work_handler2(struct work_struct *work)
 
 static int __init hello_init(void)
 {
+	pr_info("%s: pid=%d\n", __func__, current->pid);
 	wq = create_singlethread_workqueue("my_single_thread");
 
 	INIT_WORK(&work1, work_handler1);
