@@ -98,7 +98,8 @@ static const struct wiphy_vendor_command wi_vendor_cmds[] = {
 			.vendor_id = OUI_GOOGLE,
 			.subcmd = VENDOR_SUBCMD_ADD,
 		},
-		.flags = 0,
+		.flags = WIPHY_VENDOR_CMD_NEED_WDEV | WIPHY_VENDOR_CMD_NEED_NETDEV,
+		.policy = VENDOR_CMD_RAW_DATA,
 		.doit = vendor_do_cmd_add
 	},
 };
