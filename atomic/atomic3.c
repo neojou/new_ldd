@@ -6,6 +6,7 @@
 #include <linux/delay.h>
 #include <linux/slab.h>		/* for kmalloc */
 #include <linux/workqueue.h>
+#include <linux/spinlock.h>
 
 
 struct workqueue_struct *wq1, *wq2;
@@ -13,22 +14,21 @@ struct work_struct work1;
 struct work_struct work2;
 
 int sum = 0;
+const int counts=1000000;
+
+DEFINE_SPINLOCK(my_lock);
 
 static void work_handler1(struct work_struct *work)
 {
 	int i;
 	volatile int val;
-	unsigned long flags;
 
-
-	for (i=0; i<3; i++) {
-		raw_local_irq_save(flags);
+	for (i=0; i<counts; i++) {
+		spin_lock(&my_lock);
 		val = sum;	
 		val = val + 1;
-		schedule();
 		sum = val;
-		raw_local_irq_restore(flags);
-		pr_info("%s: pid=%d, sum=%d\n", __func__, current->pid, sum);
+		spin_unlock(&my_lock);
 	}
 }
 
@@ -36,16 +36,13 @@ static void work_handler2(struct work_struct *work)
 {
 	int i;
 	volatile int val;
-	unsigned long flags;
 
-	for (i=0; i<3; i++) {
-		raw_local_irq_save(flags);
+	for (i=0; i<counts; i++) {
+		spin_lock(&my_lock);
 		val = sum;	
 		val = val - 1;
-		schedule();
 		sum = val;
-		raw_local_irq_restore(flags);
-		pr_info("%s: pid=%d, sum=%d\n", __func__, current->pid, sum);
+		spin_unlock(&my_lock);
 	}
 }
 
