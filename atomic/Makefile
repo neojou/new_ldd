@@ -1,4 +1,5 @@
 obj-m += atomic1.o
+obj-m += atomic2.o
 KVERSION := $(shell uname -r)
 all:
 	$(MAKE) -C /lib/modules/$(KVERSION)/build M=$(PWD) modules
