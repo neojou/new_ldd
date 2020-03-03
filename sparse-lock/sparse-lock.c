@@ -29,7 +29,7 @@ static void work_handler1(struct work_struct *work)
 		val = sum;	
 		val = val + 1;
 		sum = val;
-		//spin_unlock(&my_lock);
+		spin_unlock(&my_lock);
 	}
 }
 
