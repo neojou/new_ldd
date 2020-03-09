@@ -1,0 +1,77 @@
+/home/neo/Android/1319/trunk-10/phoenix/toolchain/asdk-6.4.1-a53-EL-4.9-g2.26-a32nut-180831/bin/arm-linux-objdump -S func.o
+
+func.o:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+00000000 <chksum1>:
+#include <linux/init.h>
+#include <linux/module.h>
+#include <linux/kernel.h>
+
+u16 chksum1(u16 *data, int len)
+{
+   0:	e1a0c00d 	mov	ip, sp
+   4:	e92dd800 	push	{fp, ip, lr, pc}
+   8:	e24cb004 	sub	fp, ip, #4
+   c:	e52de004 	push	{lr}		; (str lr, [sp, #-4]!)
+  10:	ebfffffe 	bl	0 <__gnu_mcount_nc>
+	int i;
+	u16 chksum = 0;
+
+	for (i = 0; i < len; i++)
+  14:	e3510000 	cmp	r1, #0
+  18:	da00000a 	ble	48 <chksum1+0x48>
+  1c:	e1a03000 	mov	r3, r0
+  20:	e3a00000 	mov	r0, #0
+  24:	e0831101 	add	r1, r3, r1, lsl #2
+		chksum ^= *(data + 2 * i) ^ *(data + 2 * i + 1);
+  28:	e1d320b0 	ldrh	r2, [r3]
+  2c:	e2833004 	add	r3, r3, #4
+  30:	e153c0b2 	ldrh	ip, [r3, #-2]
+	for (i = 0; i < len; i++)
+  34:	e1510003 	cmp	r1, r3
+		chksum ^= *(data + 2 * i) ^ *(data + 2 * i + 1);
+  38:	e022200c 	eor	r2, r2, ip
+  3c:	e0200002 	eor	r0, r0, r2
+	for (i = 0; i < len; i++)
+  40:	1afffff8 	bne	28 <chksum1+0x28>
+  44:	e89da800 	ldm	sp, {fp, sp, pc}
+	u16 chksum = 0;
+  48:	e3a00000 	mov	r0, #0
+
+	return chksum;
+}
+  4c:	e89da800 	ldm	sp, {fp, sp, pc}
+
+00000050 <chksum2>:
+
+u16 chksum2(u16 *data, int len)
+{
+  50:	e1a0c00d 	mov	ip, sp
+  54:	e92dd800 	push	{fp, ip, lr, pc}
+  58:	e24cb004 	sub	fp, ip, #4
+  5c:	e52de004 	push	{lr}		; (str lr, [sp, #-4]!)
+  60:	ebfffffe 	bl	0 <__gnu_mcount_nc>
+	u16 chksum = 0;
+
+	while (len--)
+  64:	e3510000 	cmp	r1, #0
+  68:	e2413001 	sub	r3, r1, #1
+  6c:	0a000005 	beq	88 <chksum2+0x38>
+  70:	e3a01000 	mov	r1, #0
+		chksum ^= *data++;
+  74:	e0d020b2 	ldrh	r2, [r0], #2
+	while (len--)
+  78:	e2433001 	sub	r3, r3, #1
+  7c:	e3730001 	cmn	r3, #1
+		chksum ^= *data++;
+  80:	e0211002 	eor	r1, r1, r2
+	while (len--)
+  84:	1afffffa 	bne	74 <chksum2+0x24>
+
+	return chksum;
+}
+  88:	e1a00001 	mov	r0, r1
+  8c:	e89da800 	ldm	sp, {fp, sp, pc}

@@ -1,0 +1,130 @@
+/home/neo/Android/1319/trunk-10/phoenix/toolchain/asdk-6.4.1-a53-EL-4.9-g2.26-a32nut-180831/bin/arm-linux-objdump -S func.o
+
+func.o:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+00000000 <chksum1>:
+#include <linux/init.h>
+#include <linux/module.h>
+#include <linux/kernel.h>
+
+u16 chksum1(u16 *data, int len)
+{
+   0:	e1a0c00d 	mov	ip, sp
+   4:	e92dd800 	push	{fp, ip, lr, pc}
+   8:	e24cb004 	sub	fp, ip, #4
+   c:	e52de004 	push	{lr}		; (str lr, [sp, #-4]!)
+  10:	ebfffffe 	bl	0 <__gnu_mcount_nc>
+	int i;
+	u16 chksum = 0;
+
+	for (i = 0; i < len; i++)
+  14:	e3510000 	cmp	r1, #0
+  18:	da00000a 	ble	48 <chksum1+0x48>
+  1c:	e1a03000 	mov	r3, r0
+  20:	e3a00000 	mov	r0, #0
+  24:	e0831101 	add	r1, r3, r1, lsl #2
+		chksum ^= *(data + 2 * i) ^ *(data + 2 * i + 1);
+  28:	e1d320b0 	ldrh	r2, [r3]
+  2c:	e2833004 	add	r3, r3, #4
+  30:	e153c0b2 	ldrh	ip, [r3, #-2]
+	for (i = 0; i < len; i++)
+  34:	e1510003 	cmp	r1, r3
+		chksum ^= *(data + 2 * i) ^ *(data + 2 * i + 1);
+  38:	e022200c 	eor	r2, r2, ip
+  3c:	e0200002 	eor	r0, r0, r2
+	for (i = 0; i < len; i++)
+  40:	1afffff8 	bne	28 <chksum1+0x28>
+  44:	e89da800 	ldm	sp, {fp, sp, pc}
+	u16 chksum = 0;
+  48:	e3a00000 	mov	r0, #0
+
+	return chksum;
+}
+  4c:	e89da800 	ldm	sp, {fp, sp, pc}
+
+00000050 <chksum2>:
+
+u16 chksum2(u16 *data, int len)
+{
+  50:	e1a0c00d 	mov	ip, sp
+  54:	e92dd8f0 	push	{r4, r5, r6, r7, fp, ip, lr, pc}
+  58:	e24cb004 	sub	fp, ip, #4
+  5c:	e52de004 	push	{lr}		; (str lr, [sp, #-4]!)
+  60:	ebfffffe 	bl	0 <__gnu_mcount_nc>
+	u16 chksum = 0;
+
+	while (len--)
+  64:	e3510000 	cmp	r1, #0
+  68:	e241c001 	sub	ip, r1, #1
+  6c:	0a000025 	beq	108 <chksum2+0xb8>
+  70:	e2413002 	sub	r3, r1, #2
+  74:	e35c0004 	cmp	ip, #4
+  78:	e1a030a3 	lsr	r3, r3, #1
+  7c:	e2833001 	add	r3, r3, #1
+  80:	e1a06083 	lsl	r6, r3, #1
+  84:	9a000021 	bls	110 <chksum2+0xc0>
+  88:	e3a0e000 	mov	lr, #0
+  8c:	e1a04000 	mov	r4, r0
+  90:	e1a0200e 	mov	r2, lr
+		chksum ^= *data++;
+  94:	e4945004 	ldr	r5, [r4], #4
+  98:	e28ee001 	add	lr, lr, #1
+  9c:	e153000e 	cmp	r3, lr
+  a0:	e0222005 	eor	r2, r2, r5
+  a4:	8afffffa 	bhi	94 <chksum2+0x44>
+  a8:	e0222822 	eor	r2, r2, r2, lsr #16
+  ac:	e1510006 	cmp	r1, r6
+  b0:	e0800086 	add	r0, r0, r6, lsl #1
+  b4:	e04cc006 	sub	ip, ip, r6
+  b8:	e6ff1072 	uxth	r1, r2
+  bc:	0a000011 	beq	108 <chksum2+0xb8>
+  c0:	e1d030b0 	ldrh	r3, [r0]
+	while (len--)
+  c4:	e35c0000 	cmp	ip, #0
+		chksum ^= *data++;
+  c8:	e0211003 	eor	r1, r1, r3
+	while (len--)
+  cc:	0a00000d 	beq	108 <chksum2+0xb8>
+		chksum ^= *data++;
+  d0:	e1d030b2 	ldrh	r3, [r0, #2]
+	while (len--)
+  d4:	e35c0001 	cmp	ip, #1
+		chksum ^= *data++;
+  d8:	e0211003 	eor	r1, r1, r3
+  dc:	e6ff1071 	uxth	r1, r1
+	while (len--)
+  e0:	0a000008 	beq	108 <chksum2+0xb8>
+		chksum ^= *data++;
+  e4:	e1d030b4 	ldrh	r3, [r0, #4]
+	while (len--)
+  e8:	e35c0002 	cmp	ip, #2
+		chksum ^= *data++;
+  ec:	e0211003 	eor	r1, r1, r3
+	while (len--)
+  f0:	0a000004 	beq	108 <chksum2+0xb8>
+		chksum ^= *data++;
+  f4:	e1d030b6 	ldrh	r3, [r0, #6]
+	while (len--)
+  f8:	e35c0003 	cmp	ip, #3
+		chksum ^= *data++;
+  fc:	e0211003 	eor	r1, r1, r3
+ 100:	11d030b8 	ldrhne	r3, [r0, #8]
+ 104:	10211003 	eorne	r1, r1, r3
+
+	return chksum;
+}
+ 108:	e1a00001 	mov	r0, r1
+ 10c:	e89da8f0 	ldm	sp, {r4, r5, r6, r7, fp, sp, pc}
+		chksum ^= *data++;
+ 110:	e1d030b0 	ldrh	r3, [r0]
+	while (len--)
+ 114:	e3a01000 	mov	r1, #0
+ 118:	e35c0000 	cmp	ip, #0
+		chksum ^= *data++;
+ 11c:	e0211003 	eor	r1, r1, r3
+	while (len--)
+ 120:	0afffff8 	beq	108 <chksum2+0xb8>
+ 124:	eaffffe9 	b	d0 <chksum2+0x80>
