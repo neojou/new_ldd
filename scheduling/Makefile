@@ -1,3 +1,4 @@
+obj-m += sched_atomic0.o
 obj-m += sched_atomic1.o
 obj-m += sched_atomic2.o
 KVERSION := $(shell uname -r)
